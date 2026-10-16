@@ -4,7 +4,9 @@
   "description": "Nano LLM (<your-nano-llm-endpoint>) provider plugin for OpenCode: OpenAI-compatible, live model discovery, /connect API-key auth.",
   "type": "module",
   "license": "Apache-2.0",
-  "keywords": ["opencode-plugin"],
+  "keywords": [
+    "opencode-plugin"
+  ],
   "exports": {
     ".": "./src/index.ts"
   },
@@ -19,5 +21,11 @@
   },
   "devDependencies": {
     "@types/bun": "latest"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sadmansakib/nano-llm.git",
+    "directory": "opencode-plugin"
+  },
+  "homepage": "https://github.com/sadmansakib/nano-llm#readme"
 }
