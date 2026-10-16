@@ -38,7 +38,7 @@ The API key is never committed. Both integrations resolve it from the environmen
 | `NANO_LLM_BASE_URL` | `https://<your-nano-llm-endpoint>/v1` | both |
 | `NANO_LLM_API_KEY_ENV` | `NANO_LLM_API_KEY` | both (name of the var holding the key) |
 
-## Install (published packages)
+## Install
 
 **OpenCode V2:**
 
@@ -52,8 +52,7 @@ opencode plugin add nano-llm-opencode-plugin
 pi install npm:nano-llm-pi-extension
 ```
 
-Then set `NANO_LLM_API_KEY` (OpenCode also supports `/connect` → *Nano LLM* → *login with API key*, which stores the credential and takes precedence over the environment).
-
+Set `NANO_LLM_API_KEY` in your shell. OpenCode also supports `/connect` → *Nano LLM* → *login with API key*, which stores the credential and takes precedence over the environment.
 ## OpenCode V2
 
 Two routes; both are supported here.
