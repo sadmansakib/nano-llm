@@ -1,0 +1,30 @@
+// Copy to ~/.pi/agent/models.json (see https://pi.dev/docs/latest/models).
+//
+// This is the no-extension alternative to pi-extension/src/index.ts: a static
+// model list for the same OpenAI-compatible endpoint. Use it when you do not
+// need runtime discovery. `/model` reloads this file.
+//
+// Credential precedence: --api-key > ~/.pi/agent/auth.json > apiKey below >
+// provider env vars. `$NANO_LLM_API_KEY` is resolved from the environment.
+{
+  "$schema": "https://pi.dev/schemas/models.schema.json",
+  "providers": {
+    "nano-llm": {
+      "name": "Nano LLM",
+      "baseUrl": "https://<your-nano-llm-endpoint>/v1",
+      "api": "openai-completions",
+      "apiKey": "$NANO_LLM_API_KEY",
+      "models": [
+        {
+          "id": "kilo/liquid/lfm-2.5-2.6b:free-66K-txt",
+          "name": "LFM 2.5",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 128000,
+          "maxTokens": 8192,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        }
+      ]
+    }
+  }
+}

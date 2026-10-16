@@ -1,0 +1,27 @@
+{
+  "name": "nano-llm-pi-extension",
+  "version": "0.1.0",
+  "description": "Nano LLM (<your-nano-llm-endpoint>) provider extension for the Pi coding agent: OpenAI-compatible, live model discovery, $NANO_LLM_API_KEY auth.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "keywords": ["pi-package"],
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^1.3.0",
+    "@types/bun": "latest"
+  }
+}

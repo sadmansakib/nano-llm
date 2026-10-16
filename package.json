@@ -1,0 +1,16 @@
+{
+  "name": "nano-llm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "opencode-plugin",
+    "pi-extension"
+  ],
+  "scripts": {
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

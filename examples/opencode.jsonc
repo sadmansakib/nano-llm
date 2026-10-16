@@ -1,0 +1,40 @@
+// Two equivalent ways to wire nano-llm into OpenCode V2.
+//
+// Option A (below): declarative only, no plugin. Simple and static.
+// Option B: load the plugin (see `plugins`) for runtime model discovery.
+//
+// Docs: https://opencode.ai/v2/docs/providers  |  https://opencode.ai/v2/docs/build/plugins
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // --- Option A: declarative provider, no code ---
+  "providers": {
+    "nano-llm": {
+      "name": "Nano LLM",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "https://<your-nano-llm-endpoint>/v1",
+        "apiKey": "{env:NANO_LLM_API_KEY}"
+      },
+      "models": {
+        "kilo/liquid/lfm-2.5-2.6b:free-66K-txt": {
+          "name": "LFM 2.5"
+        }
+      }
+    }
+  }
+
+  // --- Option B: plugin with dynamic discovery ---
+  // Add this alongside (or instead of) the block above:
+  //
+  // "plugins": [
+  //   {
+  //     "package": "../opencode-plugin",
+  //     "options": {
+  //       "baseURL": "https://<your-nano-llm-endpoint>/v1",
+  //       "apiKeyEnv": "NANO_LLM_API_KEY",
+  //       "refreshIntervalMs": 900000
+  //     }
+  //   }
+  // ]
+}
