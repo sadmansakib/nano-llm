@@ -12,10 +12,9 @@ import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@earendi
  * `GET {baseUrl}/models` (Bearer auth) and returns the resulting list, which
  * replaces the extension-provided models for this provider.
  *
- * Config is read from the environment at load time:
- *   NANO_LLM_BASE_URL   override the endpoint (default https://<your-nano-llm-endpoint>/v1)
- *   NANO_LLM_API_KEY    the API key (referenced as $NANO_LLM_API_KEY by Pi itself)
- *   NANO_LLM_API_KEY_ENV  name of a different env var holding the key
+ * Config:
+ *   NANO_LLM_BASE_URL   env override for the endpoint (default https://<your-nano-llm-endpoint>/v1)
+ *   API key: read from Pi's stored auth.json credential — no env var needed.
  *
  * See https://pi.dev/docs/latest/custom-provider for the surrounding contract.
  */
@@ -23,7 +22,6 @@ import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@earendi
 const PROVIDER_ID = "nano-llm"
 const PROVIDER_NAME = "Nano LLM"
 const DEFAULT_BASE_URL = "https://<your-nano-llm-endpoint>/v1"
-const DEFAULT_API_KEY_ENV = "NANO_LLM_API_KEY"
 
 const DEFAULT_CONTEXT_WINDOW = 128_000
 const DEFAULT_MAX_TOKENS = 8_192
@@ -99,20 +97,23 @@ async function discoverModels(baseURL: string, options: DiscoverOptions = {}): P
 
   return models
 }
+function authHeadersFromCredential(credential: unknown): Record<string, string> {
+  const key =
+    credential && typeof credential === "object" && (credential as { type?: string }).type === "api_key"
+      ? (credential as { key?: string }).key
+      : undefined
+  return key ? { authorization: `Bearer ${key}` } : {}
+}
 
 export default function nanoLLM(pi: ExtensionAPI): void {
   const baseURL = normaliseBaseURL(process.env.NANO_LLM_BASE_URL ?? DEFAULT_BASE_URL)
-  const apiKeyEnv = process.env.NANO_LLM_API_KEY_ENV ?? DEFAULT_API_KEY_ENV
-  const apiKey = process.env[apiKeyEnv]
-
-  const authHeaders: Record<string, string> = apiKey ? { authorization: `Bearer ${apiKey}` } : {}
-
   const config: ProviderConfig = {
     name: PROVIDER_NAME,
     baseUrl: baseURL,
-    // $(ENV) syntax: Pi resolves the key at request time instead of us baking
-    // the secret into the registered provider.
-    apiKey: `$${apiKeyEnv}`,
+    // Key lives in auth.json (via /login or manual edit). This field is a
+    // required declaration only; Pi prefers the stored auth.json credential
+    // over resolving this from the environment.
+    apiKey: "$NANO_LLM_API_KEY",
     api: "openai-completions",
     // Adds `Authorization: Bearer <resolved api key>` to provider requests.
     authHeader: true,
@@ -123,7 +124,7 @@ export default function nanoLLM(pi: ExtensionAPI): void {
       try {
         return await discoverModels(context.baseUrl ?? baseURL, {
           signal: context.signal,
-          headers: authHeaders,
+          headers: authHeadersFromCredential(context.credential),
         })
       } catch (error) {
         // Keep the previous/fallback list rather than losing the provider.
