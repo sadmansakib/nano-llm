@@ -10,7 +10,7 @@ opencode plugin add nano-llm-opencode-plugin
 
 Then authenticate: `/connect` → **Login with API key** → **nano llm** (key from the gateway), or set `NANO_LLM_API_KEY`.
 
-Optional env overrides: `NANO_LLM_BASE_URL` (default `https://<your-nano-llm-endpoint>/v1`).
+Required: `NANO_LLM_BASE_URL` (e.g. `https://<your-host>/v1`), or set `baseURL` in the plugin options.
 
 Use with: `opencode -m nano-llm/<model-id>` — run `opencode models | grep nano-llm` for the live list.
 

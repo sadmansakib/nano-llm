@@ -13,7 +13,7 @@
       "name": "Nano LLM",
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
-        "baseURL": "https://<your-nano-llm-endpoint>/v1",
+        "baseURL": "<your-nano-llm-endpoint>/v1",
         "apiKey": "{env:NANO_LLM_API_KEY}"
       },
       "models": {
@@ -31,7 +31,7 @@
   //   {
   //     "package": "../opencode-plugin",
   //     "options": {
-  //       "baseURL": "https://<your-nano-llm-endpoint>/v1",
+  //       "baseURL": "<your-nano-llm-endpoint>/v1",
   //       "apiKeyEnv": "NANO_LLM_API_KEY",
   //       "refreshIntervalMs": 900000
   //     }

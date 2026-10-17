@@ -22,12 +22,11 @@ const INTEGRATION_ID = "nano-llm"
 const PROVIDER_NAME = "Nano LLM"
 const INTEGRATION_NAME = "Nano LLM"
 const PROVIDER_PACKAGE = "@opencode/ai/providers/openai-compatible"
-const DEFAULT_BASE_URL = "https://<your-nano-llm-endpoint>/v1"
 const DEFAULT_API_KEY_ENV = "NANO_LLM_API_KEY"
 const DEFAULT_MODEL_ID = "kilo/liquid/lfm-2.5-2.6b:free-66K-txt"
 
 export type NanoLLMOptions = {
-  /** OpenAI-compatible base URL. Defaults to https://<your-nano-llm-endpoint>/v1 */
+  /** OpenAI-compatible base URL. Required: set here or via NANO_LLM_BASE_URL. */
   baseURL?: string
   /** Literal API key. Takes precedence over a stored credential and the environment. */
   apiKey?: string
@@ -99,7 +98,13 @@ export default Plugin.define({
   async setup(ctx) {
     const options = (ctx.options ?? {}) as NanoLLMOptions
 
-    const baseURL = resolveBaseURL(options.baseURL ?? process.env.NANO_LLM_BASE_URL ?? DEFAULT_BASE_URL)
+    const rawBaseURL = options.baseURL ?? process.env.NANO_LLM_BASE_URL
+    if (!rawBaseURL) {
+      throw new Error(
+        "[nano-llm] no base URL configured. Set `baseURL` in the plugin options or NANO_LLM_BASE_URL in the environment.",
+      )
+    }
+    const baseURL = resolveBaseURL(rawBaseURL)
     const apiKeyEnv = options.apiKeyEnv ?? DEFAULT_API_KEY_ENV
 
     const source: Source = {

@@ -11,7 +11,7 @@
   "providers": {
     "nano-llm": {
       "name": "Nano LLM",
-      "baseUrl": "https://<your-nano-llm-endpoint>/v1",
+      "baseUrl": "<your-nano-llm-endpoint>/v1",
       "api": "openai-completions",
       "apiKey": "$NANO_LLM_API_KEY",
       "models": [

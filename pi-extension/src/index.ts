@@ -13,7 +13,7 @@ import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@earendi
  * replaces the extension-provided models for this provider.
  *
  * Config:
- *   NANO_LLM_BASE_URL   env override for the endpoint (default https://<your-nano-llm-endpoint>/v1)
+ *   NANO_LLM_BASE_URL   endpoint (required — set here or `baseUrl` in ~/.pi/agent/models.json)
  *   API key: read from Pi's stored auth.json credential — no env var needed.
  *
  * See https://pi.dev/docs/latest/custom-provider for the surrounding contract.
@@ -21,7 +21,6 @@ import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@earendi
 
 const PROVIDER_ID = "nano-llm"
 const PROVIDER_NAME = "Nano LLM"
-const DEFAULT_BASE_URL = "https://<your-nano-llm-endpoint>/v1"
 
 const DEFAULT_CONTEXT_WINDOW = 128_000
 const DEFAULT_MAX_TOKENS = 8_192
@@ -106,7 +105,13 @@ function authHeadersFromCredential(credential: unknown): Record<string, string> 
 }
 
 export default function nanoLLM(pi: ExtensionAPI): void {
-  const baseURL = normaliseBaseURL(process.env.NANO_LLM_BASE_URL ?? DEFAULT_BASE_URL)
+  const rawBaseURL = process.env.NANO_LLM_BASE_URL
+  if (!rawBaseURL) {
+    throw new Error(
+      "[nano-llm] no base URL configured. Set NANO_LLM_BASE_URL in the environment, or `baseUrl` for the nano-llm provider in ~/.pi/agent/models.json.",
+    )
+  }
+  const baseURL = normaliseBaseURL(rawBaseURL)
   const config: ProviderConfig = {
     name: PROVIDER_NAME,
     baseUrl: baseURL,

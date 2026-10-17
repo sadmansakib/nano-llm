@@ -7,7 +7,7 @@ Provider integrations for the **nano-llm** OpenAI-compatible endpoint, for two h
 | [OpenCode V2](https://opencode.ai/v2/docs/) | `opencode-plugin/` — plugin using `ctx.provider.transform` | dynamic, `ctx.provider.reload()` |
 | [Pi](https://pi.dev/docs/latest/) | `pi-extension/` — extension using `pi.registerProvider` | dynamic, `refreshModels` |
 
-Endpoint: `https://<your-nano-llm-endpoint>/v1` — OpenAI-compatible, requires a Bearer API key.
+Endpoint: `<your-nano-llm-endpoint>/v1` — OpenAI-compatible, requires a Bearer API key.
 
 ```
 nano-llm/
@@ -35,7 +35,7 @@ The API key is never committed. Both integrations resolve it from the environmen
 | Variable | Default | Used by |
 | --- | --- | --- |
 | `NANO_LLM_API_KEY` | — | both |
-| `NANO_LLM_BASE_URL` | `https://<your-nano-llm-endpoint>/v1` | both |
+| `NANO_LLM_BASE_URL` | required, no default (self-hosting supported) | both |
 | `NANO_LLM_API_KEY_ENV` | `NANO_LLM_API_KEY` | both (name of the var holding the key) |
 
 ## Install
@@ -68,7 +68,7 @@ Add to `opencode.jsonc` (project or `~/.config/opencode/`):
     {
       "package": "nano-llm-opencode-plugin",
       "options": {
-        "baseURL": "https://<your-nano-llm-endpoint>/v1",
+        "baseURL": "<your-nano-llm-endpoint>/v1",
         "apiKeyEnv": "NANO_LLM_API_KEY",
         "refreshIntervalMs": 900000
       }
@@ -95,7 +95,7 @@ See `examples/opencode.jsonc`:
       "name": "Nano LLM",
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
-        "baseURL": "https://<your-nano-llm-endpoint>/v1",
+        "baseURL": "<your-nano-llm-endpoint>/v1",
         "apiKey": "{env:NANO_LLM_API_KEY}"
       },
       "models": { "kilo/liquid/lfm-2.5-2.6b:free-66K-txt": { "name": "LFM 2.5 (fallback)" } }

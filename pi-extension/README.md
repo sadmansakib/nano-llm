@@ -14,7 +14,7 @@ Set your gateway API key:
 export NANO_LLM_API_KEY=<your-key>
 ```
 
-Optional env overrides: `NANO_LLM_BASE_URL` (default `https://<your-nano-llm-endpoint>/v1`), `NANO_LLM_API_KEY_ENV` (alternate key variable name).
+Required: `NANO_LLM_BASE_URL` (e.g. `https://<your-host>/v1` — self-hosted endpoints welcome). Optional: `NANO_LLM_API_KEY_ENV` (alternate key variable name).
 
 Use with: `pi --model nano-llm/<model-id>` — run `pi --list-models | grep nano-llm` for the list.
 
