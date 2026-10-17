@@ -1,6 +1,6 @@
 {
   "name": "nano-llm-pi-extension",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Nano LLM (<your-nano-llm-endpoint>) provider extension for the Pi coding agent: OpenAI-compatible, live model discovery, $NANO_LLM_API_KEY auth.",
   "type": "module",
   "license": "Apache-2.0",
